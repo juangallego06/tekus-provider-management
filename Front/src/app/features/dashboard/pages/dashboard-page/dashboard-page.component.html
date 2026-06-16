@@ -1,1 +1,63 @@
-<p>dashboard-page works!</p>
+<div class="p-6 space-y-6">
+  <h1 class="text-2xl font-bold">Dashboard</h1>
+
+  <!-- Tarjetas -->
+  @if (loading()) {
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      @for (i of [1, 2, 3]; track i) {
+        <div class="skeleton h-32 rounded-xl"></div>
+      }
+    </div>
+  } @else {
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <!-- Providers -->
+      <div class="card bg-base-200 shadow-md">
+        <div class="card-body">
+          <div class="flex items-center justify-between">
+            <span class="text-4xl">📋</span>
+            <span class="text-4xl font-bold text-primary">{{
+              summary()?.providers
+            }}</span>
+          </div>
+          <h2 class="card-title text-base-content/70 mt-2">Providers</h2>
+        </div>
+      </div>
+
+      <!-- Services -->
+      <div class="card bg-base-200 shadow-md">
+        <div class="card-body">
+          <div class="flex items-center justify-between">
+            <span class="text-4xl">⚙️</span>
+            <span class="text-4xl font-bold text-secondary">{{
+              summary()?.services
+            }}</span>
+          </div>
+          <h2 class="card-title text-base-content/70 mt-2">Services</h2>
+        </div>
+      </div>
+
+      <!-- Average Hourly Rate -->
+      <div class="card bg-base-200 shadow-md">
+        <div class="card-body">
+          <div class="flex items-center justify-between">
+            <span class="text-4xl">💰</span>
+            <span class="text-4xl font-bold text-accent">
+              {{ summary()?.averageHourlyRate | number: "1.2-2" }}
+            </span>
+          </div>
+          <h2 class="card-title text-base-content/70 mt-2">Avg. Hourly Rate</h2>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Gráfica -->
+  @if (!loading() && summary()) {
+    <div class="card bg-base-200 shadow-md">
+      <div class="card-body">
+        <h2 class="card-title mb-4">Overview</h2>
+        <div id="chart"></div>
+      </div>
+    </div>
+  }
+</div>
