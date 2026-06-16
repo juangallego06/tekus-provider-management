@@ -38,12 +38,7 @@ public class CreateServiceCommandHandler
                 "Provider not found.");
         }
 
-        var service = new Service
-        {
-            Name = request.Name,
-            HourlyRate = request.HourlyRate,
-            ProviderId = request.ProviderId
-        };
+        var service = _mapper.Map<Service>(request);
 
         await _unitOfWork.Services.AddAsync(service);
 
@@ -55,12 +50,8 @@ public class CreateServiceCommandHandler
             provider.Name,
             service.Name);
 
-        return new ServiceResponseDto(
-            service.Id,
-            service.Name,
-            service.HourlyRate,
-            provider.Id,
-            provider.Name
-        );
+        service.Provider = provider;
+
+        return _mapper.Map<ServiceResponseDto>(service);
     }
 }
