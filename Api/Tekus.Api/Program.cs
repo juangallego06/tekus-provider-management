@@ -1,17 +1,22 @@
+using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Tekus.Api.Extensions;
+using Tekus.Application;
+using Tekus.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddControllers();
 
-var app = builder.Build();
+builder.Services.AddEndpointsApiExplorer();
 
-app.UseGlobalExceptionHandling();
+builder.Services.AddSwaggerDocumentation();
+
+builder.Services.AddApplication();
+
+builder.Services.AddInfrastructure(
+    builder.Configuration);
 
 builder.Services
     .AddAuthentication(
@@ -35,7 +40,35 @@ builder.Services
                 IssuerSigningKey =
                     new SymmetricSecurityKey(
                         Encoding.UTF8.GetBytes(
-                            builder.Configuration["Jwt:Key"]!
-                        ))
+                            builder.Configuration["Jwt:Key"]!))
             };
     });
+
+builder.Services.AddAuthorization();
+
+var app = builder.Build();
+
+app.UseGlobalExceptionHandling();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+
+    app.UseSwaggerUI(options =>
+    {
+        options.DocumentTitle =
+            "Tekus Provider Management API";
+
+        options.RoutePrefix = string.Empty;
+    });
+}
+
+app.UseHttpsRedirection();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
