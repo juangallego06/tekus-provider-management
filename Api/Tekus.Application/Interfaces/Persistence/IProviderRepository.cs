@@ -11,5 +11,8 @@ namespace Tekus.Application.Interfaces.Persistence
         Task<Provider> AddAsync(Provider provider);
 
         Task<bool> ExistsByEmailAsync(string email);
+
+        Task<bool> ExistsAsync(int id);
+        Task<int> CountAsync();
     }
 }

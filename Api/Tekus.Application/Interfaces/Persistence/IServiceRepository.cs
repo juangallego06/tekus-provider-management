@@ -9,5 +9,9 @@ namespace Tekus.Application.Interfaces.Persistence
         Task<Service?> GetByIdAsync(int id);
 
         Task<Service> AddAsync(Service service);
+
+        Task<int> CountAsync();
+
+        Task<decimal> AverageHourlyRateAsync();
     }
 }

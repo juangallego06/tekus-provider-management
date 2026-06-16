@@ -35,4 +35,16 @@ public class ServiceRepository : IServiceRepository
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == id);
     }
+
+    public async Task<int> CountAsync()
+    {
+        return await _context.Services.CountAsync();
+    }
+
+    public async Task<decimal> AverageHourlyRateAsync()
+    {
+        return await _context.Services.AnyAsync()
+            ? await _context.Services.AverageAsync(x => x.HourlyRate)
+            : 0;
+    }
 }

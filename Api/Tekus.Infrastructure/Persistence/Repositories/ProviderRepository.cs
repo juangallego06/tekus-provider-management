@@ -39,4 +39,15 @@ public class ProviderRepository : IProviderRepository
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == id);
     }
+
+    public async Task<bool> ExistsAsync(int id)
+    {
+        return await _context.Providers
+            .AnyAsync(x => x.Id == id);
+    }
+
+    public async Task<int> CountAsync()
+    {
+        return await _context.Providers.CountAsync();
+    }
 }

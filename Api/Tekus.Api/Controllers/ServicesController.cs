@@ -1,19 +1,19 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Tekus.Application.Features.Providers.Commands.CreateProvider;
-using Tekus.Application.Features.Providers.Queries.GetProviders;
+using Tekus.Application.Features.Services.Commands.CreateService;
+using Tekus.Application.Features.Services.Queries.GetServices;
 
 namespace Tekus.Api.Controllers;
 
 [ApiController]
 [Authorize]
 [Route("api/[controller]")]
-public class ProvidersController : ControllerBase
+public class ServicesController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public ProvidersController(
+    public ServicesController(
         IMediator mediator)
     {
         _mediator = mediator;
@@ -24,14 +24,14 @@ public class ProvidersController : ControllerBase
     {
         var response =
             await _mediator.Send(
-                new GetProvidersQuery());
+                new GetServicesQuery());
 
         return Ok(response);
     }
 
     [HttpPost]
     public async Task<IActionResult> Create(
-        CreateProviderCommand command)
+        CreateServiceCommand command)
     {
         var response =
             await _mediator.Send(command);
