@@ -3,5 +3,12 @@ export interface Provider {
   nit: string;
   name: string;
   email: string;
-  website?: string;
+  website: string;
+}
+
+export interface CreateProviderRequest {
+  nit: string;
+  name: string;
+  email: string;
+  website: string;
 }
