@@ -1,7 +1,7 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Tekus.Api.Extensions;
+using Scalar.AspNetCore;
 using Tekus.Application;
 using Tekus.Infrastructure;
 
@@ -11,7 +11,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerDocumentation();
+
 
 builder.Services.AddApplication();
 
@@ -46,21 +46,16 @@ builder.Services
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddOpenApi();
+
 var app = builder.Build();
 
-app.UseGlobalExceptionHandling();
+
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-
-    app.UseSwaggerUI(options =>
-    {
-        options.DocumentTitle =
-            "Tekus Provider Management API";
-
-        options.RoutePrefix = string.Empty;
-    });
+    app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 app.UseHttpsRedirection();
