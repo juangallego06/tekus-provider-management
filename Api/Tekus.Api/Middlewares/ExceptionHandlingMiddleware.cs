@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Text.Json;
+using Tekus.Application.Common.Exceptions;
 
 namespace Tekus.Api.Middlewares;
 
@@ -21,6 +22,21 @@ public sealed class ExceptionHandlingMiddleware
         try
         {
             await _next(context);
+
+        }catch(InvalidCredentialsException exception)
+        {
+            _logger.LogError(exception, exception.Message);
+
+            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+
+            context.Response.ContentType = "application/json";
+
+            var response = new
+            {
+                message = exception.Message
+            };
+
+            await context.Response.WriteAsync(JsonSerializer.Serialize(response));
         }
         catch (Exception exception)
         {

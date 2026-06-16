@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Tekus.Application.Common.Exceptions;
 using Tekus.Application.DTOs.Auth;
 using Tekus.Application.Interfaces.Services;
 
@@ -26,7 +27,7 @@ public class LoginCommandHandler
             request.Username != username ||
             request.Password != password)
         {
-            throw new UnauthorizedAccessException(
+            throw new InvalidCredentialsException(
                 "Invalid credentials.");
         }
 
