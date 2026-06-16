@@ -3,4 +3,5 @@
   <Project Path="Tekus.Application/Tekus.Application.csproj" />
   <Project Path="Tekus.Domain/Tekus.Domain.csproj" />
   <Project Path="Tekus.Infrastructure/Tekus.Infrastructure.csproj" />
+  <Project Path="Tekus.Tests/Tekus.Tests.csproj" />
 </Solution>
