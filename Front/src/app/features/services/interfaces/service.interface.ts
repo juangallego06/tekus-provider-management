@@ -5,3 +5,9 @@ export interface Service {
   providerId: number;
   providerName: string;
 }
+
+export interface CreateServiceRequest {
+  name: string;
+  hourlyRate: number;
+  providerId: number;
+}
